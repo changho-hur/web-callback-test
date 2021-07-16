@@ -26,7 +26,7 @@ public class SomeServiceImpl implements SomeService {
 	
 	private RestTemplate restTemplate;
 	
-	@Autowired
+//	@Autowired
 	public void setRestTemplate(RestTemplate restTemplate) {
 		this.restTemplate = restTemplate;
 	}
