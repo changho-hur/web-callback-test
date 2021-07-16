@@ -44,7 +44,7 @@
 		</appender>
 		
 		<logger name="com.springframework" level="WARN"/>
-		<logger name="org.apache" level="INFO"/>
+		<logger name="org.apache" level="DEBUG"/>
 <!-- 		<logger name="SCHEDULER" level="DEBUG"/> -->
 		
 		<root level="INFO">

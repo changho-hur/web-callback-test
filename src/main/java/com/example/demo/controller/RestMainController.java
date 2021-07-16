@@ -21,7 +21,13 @@ public class RestMainController {
 	SomeService someService;
 
 	@RequestMapping(value = "/ping")
-	public String ping(HttpServletRequest request) {
+	public String ping() {
+		LOG.info("ping pong");
+		return "pong";
+	}
+	
+	@RequestMapping(value = "/callback")
+	public String callback(HttpServletRequest request) {
 		LOG.info("ping pong");
 		
 		Enumeration<String> headers = request.getHeaderNames();
