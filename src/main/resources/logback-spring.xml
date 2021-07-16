@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+ 	<springProperty name="LOG_DIR" source="logback.log.dir" defaultValue="../logs" />
+	
+	<springProfile name="local">
+		
+		<appender name="consoleAppender"
+			class="ch.qos.logback.core.ConsoleAppender">
+			<encoder>
+				<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+			</encoder>
+		</appender>
+		
+		<logger name="com.springframework" level="WARN"/>
+		<logger name="org.apache" level="INFO"/>
+		
+		<root level="DEBUG">
+			<appender-ref ref="consoleAppender" />
+		</root>	
+	</springProfile>
+
+	<springProfile name="!local">
+		<appender name="rollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+				<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+			</encoder>
+
+			<file>${LOG_DIR}/service.log</file>
+
+			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<fileNamePattern>${LOG_DIR}/service.log.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
+
+				<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+					<maxFileSize>100MB</maxFileSize>
+				</timeBasedFileNamingAndTriggeringPolicy>
+				<maxHistory>15</maxHistory>
+			</rollingPolicy>
+		</appender>
+
+		<appender name="asyncAppender" class="ch.qos.logback.classic.AsyncAppender">
+			<discardingThreshold>0</discardingThreshold>
+			<queueSize>10000</queueSize>
+			<appender-ref ref="rollingFileAppender" />
+		</appender>
+		
+		<logger name="com.springframework" level="WARN"/>
+		<logger name="org.apache" level="INFO"/>
+<!-- 		<logger name="SCHEDULER" level="DEBUG"/> -->
+		
+		<root level="INFO">
+			<appender-ref ref="asyncAppender" />
+		</root>	
+	</springProfile>
+
+</configuration>
