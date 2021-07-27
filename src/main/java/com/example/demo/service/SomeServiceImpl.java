@@ -6,6 +6,7 @@ import java.security.SecureRandom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -26,9 +27,23 @@ public class SomeServiceImpl implements SomeService {
 	
 	private RestTemplate restTemplate;
 	
-//	@Autowired
+	private String clientId;
+	
+	private String redirectUri;
+	
+	@Autowired
 	public void setRestTemplate(RestTemplate restTemplate) {
 		this.restTemplate = restTemplate;
+	}
+	
+	@Value("${naver.id.login.client.id}")
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
+	}
+	
+	@Value("${naver.id.login.redirect.uri}")
+	public void setRedirectUri(String redirectUri) {
+		this.redirectUri = redirectUri;
 	}
 
 	@Override
@@ -45,8 +60,8 @@ public class SomeServiceImpl implements SomeService {
 		
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
 		parameters.add("response_type", "code");
-		parameters.add("client_id", "xJmqq2oMq8o0a9FVA67q");
-		parameters.add("redirect_uri", "http://49.247.196.165:8090/callback");
+		parameters.add("client_id", clientId);
+		parameters.add("redirect_uri", redirectUri);
 		parameters.add("state", state);
 		
 		          
