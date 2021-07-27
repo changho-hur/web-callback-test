@@ -1,21 +1,15 @@
 package com.example.demo.service;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.net.URLEncoder;
 import java.security.SecureRandom;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -58,6 +52,25 @@ public class SomeServiceImpl implements SomeService {
 		SecureRandom random = new SecureRandom();
 		String state = new BigInteger(130, random).toString();
 		
+		
+//		String clientId = "YOUR_CLIENT_ID";//애플리케이션 클라이언트 아이디값";
+		try {
+			String redirectURI = URLEncoder.encode(redirectUri, "UTF-8");
+			String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
+		    apiURL += "&client_id=" + clientId;
+		    apiURL += "&redirect_uri=" + redirectURI;
+		    apiURL += "&state=" + state;
+		    
+		    return apiURL;
+		
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+		return null;
+		
+		/*
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
 		parameters.add("response_type", "code");
 		parameters.add("client_id", clientId);
@@ -88,5 +101,6 @@ public class SomeServiceImpl implements SomeService {
 		}
 		
 		return resBody;
+		*/
 	}
 }

@@ -21,7 +21,7 @@ public class MainController {
 	@RequestMapping(value = "/naver/authorize")
 	public String authorize(HttpServletRequest request) {
 		LOG.info("authorize");
-		return someService.authorize();
+		return "redirect:"+someService.authorize();
 	}
 
 }
