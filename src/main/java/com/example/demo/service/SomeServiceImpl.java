@@ -52,7 +52,7 @@ public class SomeServiceImpl implements SomeService {
 	}
 
 	@Override
-	public void authorize() {
+	public String authorize() {
 		LOG.info("SomeServiceImpl.authorize called.");
 		
 		SecureRandom random = new SecureRandom();
@@ -71,7 +71,7 @@ public class SomeServiceImpl implements SomeService {
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(parameters, headers);
 
 		ResponseEntity<String> response;
-		String resBody;
+		String resBody = "";
 		
 		try {
 			response = restTemplate.exchange(POST_AUTHORIZE_URL, HttpMethod.POST, entity, String.class);
@@ -86,5 +86,7 @@ public class SomeServiceImpl implements SomeService {
 		} catch (Exception e) {
 			LOG.error("authorize fail. {}", e.getMessage());
 		}
+		
+		return resBody;
 	}
 }

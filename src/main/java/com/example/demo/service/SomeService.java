@@ -4,6 +4,6 @@ public interface SomeService {
 
 	void testJob();
 	
-	void authorize();
+	String authorize();
 
 }
